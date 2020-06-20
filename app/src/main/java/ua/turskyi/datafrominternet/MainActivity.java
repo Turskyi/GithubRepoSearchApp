@@ -48,13 +48,13 @@ public class MainActivity extends AppCompatActivity {
         String githubQuery = mSearchBoxEditText.getText().toString();
         URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
         mUrlDisplayTextView.setText(githubSearchUrl.toString());
-//        String githubSearchResults = null;
-//        try {
-//            githubSearchResults =  NetworkUtils.getResponseFromHttpUrl(githubSearchUrl);
-//            mSearchResultsTextView.setText(githubSearchResults);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        String githubSearchResults;
+        try {
+            githubSearchResults =  NetworkUtils.getResponseFromHttpUrl(githubSearchUrl);
+            mSearchResultsTextView.setText(githubSearchResults);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         new GithubQueryTask().execute(githubSearchUrl);
     }
 
