@@ -45,17 +45,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void makeGithubSearchQuery() {
-        String githubQuery = mSearchBoxEditText.getText().toString();
-        URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
-        mUrlDisplayTextView.setText(githubSearchUrl.toString());
-        String githubSearchResults;
-        try {
-            githubSearchResults =  NetworkUtils.getResponseFromHttpUrl(githubSearchUrl);
-            mSearchResultsTextView.setText(githubSearchResults);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        new GithubQueryTask().execute(githubSearchUrl);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try  {
+                    String githubQuery = mSearchBoxEditText.getText().toString();
+                    URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
+                    mUrlDisplayTextView.setText(githubSearchUrl.toString());
+                    String githubSearchResults;
+                    try {
+                        githubSearchResults =  NetworkUtils.getResponseFromHttpUrl(githubSearchUrl);
+                        mSearchResultsTextView.setText(githubSearchResults);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    new GithubQueryTask().execute(githubSearchUrl);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 
     private void showJsonDataView() {

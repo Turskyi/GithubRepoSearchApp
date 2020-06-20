@@ -2,7 +2,6 @@
 package ua.turskyi.datafrominternet.utilities;
 
 import android.net.Uri;
-import android.os.StrictMode;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,8 +58,6 @@ public class NetworkUtils {
     public static String getResponseFromHttpUrl(URL url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
-            avoidMakingThreadInBackground();
-
             InputStream in = urlConnection.getInputStream();
 
             Scanner scanner = new Scanner(in);
@@ -75,10 +72,5 @@ public class NetworkUtils {
         } finally {
             urlConnection.disconnect();
         }
-    }
-
-    private static void avoidMakingThreadInBackground() {
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
     }
 }
